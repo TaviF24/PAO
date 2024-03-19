@@ -1,4 +1,4 @@
-package lab2.task8;
+package task6;
 
 import java.util.*;
 
