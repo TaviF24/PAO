@@ -17,7 +17,6 @@ public class Main {
         };
 
         List<CalculatorResult> calculationResults =  SmarterCalculator.calculate(a);
-
         for (CalculatorResult result : calculationResults) {
             CalculatorRequest request = result.getRequest();
             System.out.println("Operation " + request + " has result " + result.computeResult());
