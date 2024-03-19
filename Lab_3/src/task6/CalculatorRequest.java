@@ -9,15 +9,15 @@ public record CalculatorRequest(Object leftOperand, Object rightOperand, String 
         Invalid
     }
 
-    protected Object getLeftOperand() {
+    public Object getLeftOperand() {
         return leftOperand;
     }
 
-    protected Object getRightOperand() {
+    public Object getRightOperand() {
         return rightOperand;
     }
 
-    protected String getOperation() {
+    public String getOperation() {
         return operation;
     }
 

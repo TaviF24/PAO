@@ -1,7 +1,5 @@
 package task6;
 
-import java.util.*;
-
 public class Main {
     static public void main(String[] args){
 
@@ -16,11 +14,7 @@ public class Main {
                 "3", "/", "3"
         };
 
-        List<CalculatorResult> calculationResults =  SmarterCalculator.calculate(a);
-
-        for (CalculatorResult result : calculationResults) {
-            CalculatorRequest request = result.getRequest();
-            System.out.println("Operation " + request + " has result " + result.computeResult());
-        }
+        SmarterCalculator smarterCalculator = new SmarterCalculator();
+        smarterCalculator.CalculateAndShowResults(a);
     }
 }

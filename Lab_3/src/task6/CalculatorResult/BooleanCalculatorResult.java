@@ -1,7 +1,9 @@
-package task6;
+package task6.CalculatorResult;
 
-public final class BooleanCalculatorResult extends CalculatorResult{
-    BooleanCalculatorResult(final CalculatorRequest calculatorRequest){
+import task6.CalculatorRequest;
+
+public final class BooleanCalculatorResult extends CalculatorResult {
+    public BooleanCalculatorResult(final CalculatorRequest calculatorRequest){
         super(calculatorRequest);
     }
 

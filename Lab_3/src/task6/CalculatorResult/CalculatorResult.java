@@ -1,4 +1,6 @@
-package task6;
+package task6.CalculatorResult;
+
+import task6.CalculatorRequest;
 
 public abstract class CalculatorResult {
 

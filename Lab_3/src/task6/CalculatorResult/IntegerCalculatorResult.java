@@ -1,21 +1,22 @@
-package task6;
+package task6.CalculatorResult;
 
-public final class DoubleCalculatorResult extends CalculatorResult{
-    DoubleCalculatorResult(final CalculatorRequest calculatorRequest){
+import task6.CalculatorRequest;
+
+public final class IntegerCalculatorResult extends CalculatorResult {
+    public IntegerCalculatorResult(final CalculatorRequest calculatorRequest){
         super(calculatorRequest);
     }
 
     public Object computeResult(){
         CalculatorRequest request = getRequest();
-        Double left = (Double) request.getLeftOperand();
-        Double right = (Double) request.getRightOperand();
+        Integer left = (Integer) request.getLeftOperand();
+        Integer right = (Integer) request.getRightOperand();
         String operation = request.getOperation();
 
         return switch (operation){
             case "+" -> left + right;
             case "-" -> left - right;
             case "*" -> left * right;
-            case "/" -> left / right;
             default -> "Unexpected value";
         };
     }
