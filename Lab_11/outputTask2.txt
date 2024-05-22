@@ -1,0 +1,32 @@
+with Future -> 0.002058833 seconds
+with ParallelStream -> 0.004604917 seconds
+with Sequential -> 2.02083E-4 seconds
+with Thread -> 0.012561625 seconds
+
+
+with Future -> 0.006116167 seconds
+with ParallelStream -> 0.005708167 seconds
+with Sequential -> 0.003346583 seconds
+with Thread -> 0.009985917 seconds
+
+
+with Future -> 0.016936166 seconds
+with ParallelStream -> 0.018825625 seconds
+with Sequential -> 0.011680041 seconds
+with Thread -> 0.038292584 seconds
+
+
+with Future -> 10.434106459 seconds
+with ParallelStream -> 12.527037667 seconds
+with Sequential -> 8.538403459 seconds
+with Thread -> 12.711019958 seconds
+
+
+In toate testele, timpul metodelor paralele este mai mare decat timpul metodei secventiale.
+Cauza este ca procesul de creare a thread-urilor este costisitor, iar pentru unele input-uri e mai bine sa facem secvential
+decat paralel.
+
+
+
+
+

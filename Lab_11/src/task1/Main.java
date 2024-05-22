@@ -15,11 +15,12 @@ public class Main {
         }
 
         /*-----------------------TASK 1-----------------------*/
-        ThreadTesting.withFuture(numbers);
-        ThreadTesting.withParallelStream(numbers);
-        ThreadTesting.withThread(numbers);
+//        ThreadTesting.withFuture(numbers);
+//        ThreadTesting.withParallelStream(numbers);
+//        ThreadTesting.withThread(numbers);
 
-//        ThreadTesting.multipleTests();
+        /*-----------------------TASK 2-----------------------*/
+        ThreadTesting.multipleTests();
     }
 
 }

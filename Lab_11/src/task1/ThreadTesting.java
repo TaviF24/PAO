@@ -1,7 +1,7 @@
 package task1;
 
-import javax.lang.model.type.NullType;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Function;
 
@@ -26,27 +26,37 @@ public class ThreadTesting {
         return numbers;
     }
 
-    private static void secvential(ArrayList<Integer> numbers){
+    private static void sequential(ArrayList<Integer> numbers){
         for(Integer number : numbers){
             System.out.println(number + "^2=" + calculateSquare(number));
         }
     }
 
-    private static long getTime(Function<ArrayList<Integer>, Void> function, ArrayList<Integer> list){
-        function.apply(list);
-        return 0;
+    private static HashMap<String, Long> getMappedTime(ArrayList<Function<ArrayList<Integer>, String>> functions, ArrayList<Integer> numbers){
+        HashMap<String, Long> hashMap = new HashMap<>();
+        for(Function<ArrayList<Integer>, String> function : functions){
+            long start = System.nanoTime();
+            String functionName = function.apply(numbers);
+            long finish = System.nanoTime();
+            long timeElapsed = finish-start;
+            hashMap.put(functionName, timeElapsed);
+        }
+        return hashMap;
     }
 
     public static void withThread(ArrayList<Integer> numbers) throws InterruptedException {
 
         ArrayList<Thread> threads = new ArrayList<>();
         int nrOfThreads = Runtime.getRuntime().availableProcessors(); // on my machine is 8
-        for(int i=0; i<nrOfThreads; i++){
-            int startIndex = i*numbers.size()/nrOfThreads;
-            int endIndex = startIndex+numbers.size()/nrOfThreads;
-            threads.add(new Thread(()-> printSquare(numbers, startIndex,endIndex)));
+        int numbersPerThread = numbers.size()/nrOfThreads;
+        for(int i=0; i<nrOfThreads-1; i++){
+            int startIndex = i*numbersPerThread;
+            int endIndex = startIndex+numbersPerThread;
+            threads.add(new Thread(()-> printSquare(numbers, startIndex, endIndex)));
         }
-
+        int startIndex = (nrOfThreads-1)*numbersPerThread;
+        int endIndex = numbers.size();
+        threads.add(new Thread(()-> printSquare(numbers, startIndex, endIndex)));
         for(Thread thread : threads){
             thread.start();
         }
@@ -67,19 +77,55 @@ public class ThreadTesting {
 
 
 
-    public static void multipleTests() throws ExecutionException, InterruptedException {
-        ArrayList<Integer> listOf10 = generateNumbers(10);
-        getTime((x->{
+    public static void multipleTests() {
+        ArrayList<Function<ArrayList<Integer>, String>> functionList = new ArrayList<>();
+
+        functionList.add((x->{
+            try {
+                withThread(x);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            return "with Thread";
+        }));
+
+        functionList.add((x->{
+            withParallelStream(x);
+            return "with ParallelStream";
+        }));
+
+        functionList.add((x->{
             try {
                 withFuture(x);
             } catch (ExecutionException | InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            return null;
-        }), listOf10);
+            return "with Future";
+        }));
+
+        functionList.add((x->{
+            sequential(x);
+            return "with Sequential";
+        }));
 
 
+        String fileName = "outputTask2.txt";
+        ArrayList<Integer> listOfNumbers = generateNumbers(10);
+        HashMap<String, Long> result = getMappedTime(functionList, listOfNumbers);
+        FilePrinter.printFromHash(fileName, result);
 
+        listOfNumbers = generateNumbers(1_000);
+        result = getMappedTime(functionList, listOfNumbers);
+        FilePrinter.printFromHash(fileName, result);
+
+        listOfNumbers = generateNumbers(10_000);
+        result = getMappedTime(functionList, listOfNumbers);
+        FilePrinter.printFromHash(fileName, result);
+
+        listOfNumbers = generateNumbers(10_000_000);
+        result = getMappedTime(functionList, listOfNumbers);
+        FilePrinter.printFromHash(fileName, result);
     }
 
 }
+

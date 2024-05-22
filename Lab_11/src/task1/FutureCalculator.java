@@ -18,6 +18,7 @@ public class FutureCalculator {
 
     public void execute(ArrayList<Integer> numbers) throws ExecutionException, InterruptedException {
         List<Future<String>> futures = new ArrayList<>();
+
         for(Integer number : numbers){
             futures.add(calculate(number));
         }
